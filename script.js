@@ -36,3 +36,19 @@ jonas.calcAge();
 Person.prototype.species = 'Homo Sapiens';
 
 console.log(jonas, matilda);
+
+console.log(jonas.__proto__.__proto__);
+
+const arr = [3, 6, 6, 9, 4, 5, 6, 9, 3]; // new Array === []
+console.log(arr.__proto__ === Array.prototype); //true
+//arr.__proto__ includes all methods for example map(), reduce, filter, at, concat, fill, find etc.
+console.log(arr.__proto__.__proto__);
+
+Array.prototype.unique = function () {
+  return [...new Set(this)];
+};
+
+console.log(arr.unique());
+
+const h1 = document.querySelector('h1');
+console.dir(h1);
