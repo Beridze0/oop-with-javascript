@@ -6,9 +6,9 @@ const Person = function (firstName, birthYear) {
   this.birthYear = birthYear;
 
   //Never create method insade Constructor
-  //   this.calcAge = function () {
-  //     console.log(2037 - this.birthYear);
-  //   };
+  // this.calcAge = function () {
+  //   console.log(2037 - this.birthYear);
+  // };
 };
 
 const jonas = new Person('Jonas', 1991);
@@ -22,6 +22,17 @@ console.log(jonas);
 const matilda = new Person('Matilda', 2017);
 const jack = new Person('jack', 1975);
 
-console.log(matilda, jack);
-
 console.log(jonas instanceof Person);
+
+// Prototypes
+console.log(Person.prototype);
+
+Person.prototype.calcAge = function () {
+  console.log(2037 - this.birthYear);
+};
+
+jonas.calcAge();
+
+Person.prototype.species = 'Homo Sapiens';
+
+console.log(jonas, matilda);
