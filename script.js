@@ -418,15 +418,18 @@ class Account {
 
   // Public interface (API)
   getMovements() {
-    return this.#movements;
+    return this.#movements; // Not chainable
   }
 
   deposit(val) {
     this.#movements.push(val);
+
+    return this;
   }
 
   withdraw(val) {
     this.deposit(-val);
+    return this;
   }
 
   // Private method
@@ -436,14 +439,26 @@ class Account {
   }
 
   requestLoan(val) {
-    if (this.approveLoan(val)) {
+    if (this.#approveLoan(val)) {
       this.deposit(val);
       console.log(`Loan approved`);
     }
+    return this;
   }
 }
 
 const acc1 = new Account('Jonas', 'EUR', 1111);
-acc1.deposit(300);
-acc1.withdraw(100);
-console.log(acc1.#movements);
+// acc1.deposit(300);
+// acc1.withdraw(100);
+
+acc1
+  .deposit(300)
+  .withdraw(100)
+  .withdraw(50)
+  .requestLoan(25000)
+  // .getMovements()
+  .withdraw(4000);
+
+console.log(acc1);
+
+// console.log(acc1.#movements); // cant do it
