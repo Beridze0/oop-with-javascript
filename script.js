@@ -390,27 +390,48 @@
 // jay.introduce();
 // jay.calcAge();
 
+////////////////////////////////////
+// Encapsulation: Private Class Fields and Methods
+
+// 1. Public fields
+// 2. Private fields
+// 3. Public methods
+// 4. Private methods
+// STATIC version of there 4
+
 class Account {
+  // Public fields
+  locale = navigator.language;
+  bank = 'Bankist';
+
+  #movements = []; // private
+  #pin; // if we are depended on arguments we declare it like const and use in consturctor
+
   constructor(owner, currency, pin) {
     this.owner = owner;
     this.currency = currency;
-    this.pin = pin;
-    this.movements = [];
-    this.locale = navigator.language;
-
+    this.#pin = pin; // private pin
+    // this.movements = [];
+    // this.locale = navigator.language
     console.log(`Thanks for opening an account ${owner}`);
   }
 
-  // Public interface
+  // Public interface (API)
+  getMovements() {
+    return this.#movements;
+  }
+
   deposit(val) {
-    this.movements.push(val);
+    this.#movements.push(val);
   }
 
   withdraw(val) {
     this.deposit(-val);
   }
 
-  approveLoan(val) {
+  // Private method
+  #approveLoan(val) {
+    // Fake method
     return true;
   }
 
@@ -423,15 +444,6 @@ class Account {
 }
 
 const acc1 = new Account('Jonas', 'EUR', 1111);
-
-// Bad way
-// acc1.movements.push(250);
-// acc1.movements.push(-140);
-
-// Correct way
-acc1.deposit(250);
-acc1.withdraw(140);
-acc1.requestLoan(1000);
-console.log(acc1);
-
-console.log(acc1.pin);
+acc1.deposit(300);
+acc1.withdraw(100);
+console.log(acc1.#movements);
