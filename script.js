@@ -178,3 +178,60 @@ console.log(steven.__proto__);
 const sarah = Object.create(PersonProto);
 sarah.init('Sarah', 1979);
 sarah.calcAge();
+
+// Challenge #2
+
+// const Car = function (make, speed) {
+//   this.make = make;
+//   this.speed = speed;
+// };
+
+// Car.prototype.accelerate = function () {
+//   this.speed = this.speed + 10;
+//   console.log(`${this.make} going at ${this.speed}km/h`);
+// };
+
+// Car.prototype.brake = function () {
+//   this.speed = this.speed - 5;
+//   console.log(`${this.make} going at ${this.speed}km/h`);
+// };
+
+// const bmw = new Car('BMW', 120);
+// const mercedes = new Car('Mercedes', 95);
+
+// bmw.accelerate();
+// bmw.brake();
+// mercedes.brake();
+
+class Car {
+  constructor(make, speed) {
+    this.make = make;
+    this.speed = speed;
+  }
+
+  accelerate() {
+    this.speed += 10;
+    console.log(`${this.make} going at ${this.speed}km/h`);
+  }
+
+  brake() {
+    this.speed -= 5;
+    console.log(`${this.make} going at ${this.speed}km/h`);
+  }
+
+  get speedUS() {
+    return this.speed / 1.6;
+  }
+
+  set speedUS(speed) {
+    this.speed = speed * 1.6;
+  }
+}
+
+const bmw = new Car('Ford', 120);
+
+console.log(bmw);
+console.log(bmw.accelerate());
+console.log(bmw.brake());
+console.log(bmw.speedUS);
+bmw.speedUS = 50;
