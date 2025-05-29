@@ -399,66 +399,144 @@
 // 4. Private methods
 // STATIC version of there 4
 
-class Account {
-  // Public fields
-  locale = navigator.language;
-  bank = 'Bankist';
+// class Account {
+//   // Public fields
+//   locale = navigator.language;
+//   bank = 'Bankist';
 
-  #movements = []; // private
-  #pin; // if we are depended on arguments we declare it like const and use in consturctor
+//   #movements = []; // private
+//   #pin; // if we are depended on arguments we declare it like const and use in consturctor
 
-  constructor(owner, currency, pin) {
-    this.owner = owner;
-    this.currency = currency;
-    this.#pin = pin; // private pin
-    // this.movements = [];
-    // this.locale = navigator.language
-    console.log(`Thanks for opening an account ${owner}`);
+//   constructor(owner, currency, pin) {
+//     this.owner = owner;
+//     this.currency = currency;
+//     this.#pin = pin; // private pin
+//     // this.movements = [];
+//     // this.locale = navigator.language
+//     console.log(`Thanks for opening an account ${owner}`);
+//   }
+
+//   // Public interface (API)
+//   getMovements() {
+//     return this.#movements; // Not chainable
+//   }
+
+//   deposit(val) {
+//     this.#movements.push(val);
+
+//     return this;
+//   }
+
+//   withdraw(val) {
+//     this.deposit(-val);
+//     return this;
+//   }
+
+//   // Private method
+//   #approveLoan(val) {
+//     // Fake method
+//     return true;
+//   }
+
+//   requestLoan(val) {
+//     if (this.#approveLoan(val)) {
+//       this.deposit(val);
+//       console.log(`Loan approved`);
+//     }
+//     return this;
+//   }
+// }
+
+// const acc1 = new Account('Jonas', 'EUR', 1111);
+// // acc1.deposit(300);
+// // acc1.withdraw(100);
+
+// acc1
+//   .deposit(300)
+//   .withdraw(100)
+//   .withdraw(50)
+//   .requestLoan(25000)
+//   // .getMovements()
+//   .withdraw(4000);
+
+// console.log(acc1);
+
+// console.log(acc1.#movements); // cant do it
+
+class CarCl {
+  constructor(make, speed) {
+    this.make = make;
+    this.speed = speed;
   }
 
-  // Public interface (API)
-  getMovements() {
-    return this.#movements; // Not chainable
+  accelerate() {
+    this.speed += 10;
+    console.log(`${this.make} going at ${this.speed}km/h`);
   }
 
-  deposit(val) {
-    this.#movements.push(val);
-
+  brake() {
+    this.speed -= 5;
+    console.log(`${this.make} going at ${this.speed}km/h`);
     return this;
   }
 
-  withdraw(val) {
-    this.deposit(-val);
+  get speedUS() {
+    return this.speed / 1.6;
+  }
+
+  set speedUS(speed) {
+    this.speed = speed * 1.6;
+  }
+}
+
+class EVCl extends CarCl {
+  #charge;
+
+  constructor(make, speed, charge) {
+    super(make, speed);
+    this.#charge = charge;
+  }
+
+  accelerate() {
+    this.speed += 20;
+    this.#charge--;
+    console.log(
+      `${this.make} going at ${this.speed}km/h, with charge of ${this.#charge}%`
+    );
     return this;
   }
 
-  // Private method
-  #approveLoan(val) {
-    // Fake method
-    return true;
-  }
-
-  requestLoan(val) {
-    if (this.#approveLoan(val)) {
-      this.deposit(val);
-      console.log(`Loan approved`);
-    }
+  chargeBattery(chargeTo) {
+    this.#charge = chargeTo;
     return this;
   }
 }
 
-const acc1 = new Account('Jonas', 'EUR', 1111);
-// acc1.deposit(300);
-// acc1.withdraw(100);
+const rivian = new EVCl('Rivian', 120, 23);
+rivian.accelerate().chargeBattery(90);
+console.log(rivian);
+rivian.speedUS = rivian.speed;
+console.log(rivian);
 
-acc1
-  .deposit(300)
-  .withdraw(100)
-  .withdraw(50)
-  .requestLoan(25000)
-  // .getMovements()
-  .withdraw(4000);
+// const EV = function (make, speed, charge) {
+//   Car.call(this, make, speed);
+//   this.charge = charge;
+// };
 
-console.log(acc1);
+// //Linking
+// EV.prototype = Object.create(Car.prototype);
+// EV.prototype.constructor = EV;
 
-// console.log(acc1.#movements); // cant do it
+// EV.prototype.chargeBattery = function (chargeTo) {
+//   this.charge = chargeTo;
+// };
+
+// EV.prototype.accelerate = function () {
+//   this.speed += 20;
+//   this.charge--;
+//   console.log(
+//     `${this.make} going at ${this.speed}km/h, with charge of ${this.charge}%`
+//   );
+// };
+
+// const tesla = new EV('Tesla', 120, 23);
